@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Drug Info Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('drug.jpg');
+            background-repeat: no-repeat;
+            background-size: auto;
+            margin: 0;
+            padding: 0;
+        }
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            margin-top: 3px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chat-box {
+            height: 430px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 10px;
+        }
+        .user-input {
+            width: 90%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 15px;
+            border: 3px solid #ccc;
+            background-color: #000;
+            color: #909090;
+        }
+        .chat-bubble {
+            margin: 10px 0;
+        }
+        .user-message {
+            text-align: right;
+            color: #007bff;
+        }
+        .bot-message {
+            text-align: left;
+            color: #000;
+        }
+        button {
+            height: 38px;
+            width: 38px;
+            border-radius: 50%;
+            background-color: #000;
+            border: 3px solid #676767;
+            margin-top: 1px;
+            margin-left: 7px;
+            cursor: pointer;
+        }
+        i {
+            color: #909090;
+            font-size: 23px;
+        }
+        .intb {
+            display: flex;
+            margin-top: 10px;
+        }
+        .typing {
+            font-style: italic;
+            color: #999;
+        }
+        @media (max-width: 768px) {
+            .chat-container {
+                width: 90%;
+                padding: 15px;
+            }
+            .user-input {
+                width: 80%;
+            }
+        }
+        @media (max-width: 480px) {
+            .chat-container {
+                width: 86%;
+            }
+            .user-input {
+                width: 75%;
+            }
+        }
+
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; 
+    }
+    .chat-container {
+        width: 90%;
+        padding: 15px;
+    }
+    .user-input {
+        width: 80%;
+        font-size: 14px; 
+    }
+    h3 {
+        font-size: 1.2em; 
+    }
+    .user-message,
+    .bot-message {
+        font-size: 0.9em; 
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 12px;
+    }
+    .chat-container {
+        width: 86%;
+    }
+    .user-input {
+        width: 75%;
+        font-size: 12px; 
+    }
+    h3 {
+        font-size: 2em; 
+    }
+    .user-message,
+    .bot-message {
+        font-size: 1.2em; 
+    }
+}
+        
+.menu-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(255, 3, 24);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.menu-bar a {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-bar a i {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.menu-bar a:hover {
+    color: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+    .menu-bar a {
+        font-size: 12px;
+    }
+
+    .menu-bar a i {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-bar {
+        padding: 8px 0;
+    }
+
+    .menu-bar a {
+        font-size: 10px;
+    }
+
+    .menu-bar a i {
+        font-size: 18px;
+    }
+}
+                
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #000000;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    border: 6px solid rgb(255, 11, 60);
+    border-top-color: #000000;
+    border-bottom-color: #000000;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: animate-preloader 1s linear infinite;
+}
+
+@keyframes animate-preloader {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
+}
+    </style>
+</head>
+<body>
+    <div id="preloader"></div>
+<div class="chat-container">
+    <h3>Drug Info Chatbot</h3>
+    <div class="chat-box" id="chat-box">
+        <section id="drug-info-section"></section>
+    </div>
+    <div class="intb">
+        <input type="text" class="user-input" id="user-input" placeholder="Ask about drugs...">
+        <button id="send-button" onclick="searchdrug()"><i class='bx bx-up-arrow-alt bx-fade-down'></i></button>
+    </div>
+</div>
+<div class="menu-bar">
+    <a href="index.html">
+        <i class='bx bx-home'></i>
+        <span>Home</span>
+    </a>
+    <a href="product.html">
+        <i class='bx bx-cart'></i>
+        <span>Tools</span>
+    </a>
+    <a href="drugcat.html">
+        <i class='bx bxs-book-content'></i>
+        <span>Categories</span>
+    </a>
+    <a href="chatbot.html">
+        <i class='bx bx-receipt'></i>
+        <span>Chatbot</span>
+    </a>
+    <a href="profile.html">
+        <i class='bx bx-user'></i>
+        <span>Profile</span>
+    </a>
+</div>
+<script>
+    window.addEventListener('load', () => {
+        const preloader = document.getElementById('preloader');
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 3000);
+    });
+const inputField = document.getElementById("user-input");
+const sendButton = document.getElementById("send-button");
+
+inputField.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+});
+
+sendButton.addEventListener("click", function() {
+    sendMessage();
+});
+
+function sendMessage() {
+    let userMessage = inputField.value;
+    if (userMessage.trim() !== "") {
+        appendMessage(userMessage, "user-message");
+        getBotResponse(userMessage);
+        inputField.value = ""; 
+    }
+}
+
+function appendMessage(message, className) {
+    let chatBox = document.getElementById("chat-box");
+    let messageBubble = document.createElement("div");
+    messageBubble.className = "chat-bubble " + className;
+    messageBubble.innerText = message;
+    chatBox.appendChild(messageBubble);
+    chatBox.scrollTop = chatBox.scrollHeight; 
+}
+
+function typeOutMessage(message) {
+    let chatBox = document.getElementById("chat-box");
+    let messageBubble = document.createElement("div");
+    messageBubble.className = "chat-bubble bot-message";
+    chatBox.appendChild(messageBubble);
+
+    let index = 0;
+    function type() {
+        if (index < message.length) {
+            messageBubble.innerText += message.charAt(index);
+            index++;
+            setTimeout(type, 25); 
+        } else {
+            chatBox.scrollTop = chatBox.scrollHeight; 
+        }
+    }
+    type();
+}
+
+function getBotResponse(userMessage) {
+    let botResponse = "";
+
+    if (userMessage.toLowerCase().includes("aspirin")) {
+        botResponse = "Aspirin is used to reduce fever, pain, and inflammation. It also reduces the risk of heart attacks.";
+    } else if (userMessage.toLowerCase().includes("paracetamol")) {
+        botResponse = "Paracetamol is used to treat fever and mild to moderate pain, such as headaches or muscle pain.";
+    } else if (userMessage.toLowerCase().includes("ibuprofen")) {
+        botResponse = "Ibuprofen is a nonsteroidal anti-inflammatory drug (NSAID) used for pain relief, fever, and inflammation.";
+    } else if (userMessage.toLowerCase().includes("amoxicillin")) {
+        botResponse = "Amoxicillin is an antibiotic used to treat bacterial infections like pneumonia and bronchitis.";
+    } else if (userMessage.toLowerCase().includes("insulin")) {
+        botResponse = "Insulin is a hormone used to treat diabetes by helping regulate blood sugar levels.";
+    } else if (userMessage.toLowerCase().includes("metformin")) {
+        botResponse = "Metformin is used to control blood sugar levels in people with type 2 diabetes.";
+    } else if (userMessage.toLowerCase().includes("hello")) {
+        botResponse = "Hello I am E.D.T.I.H, How Can I Help you?";
+    } else if (userMessage.toLowerCase().includes("drug")) {
+        botResponse = "Could you clarify what specific information you're looking for related to drugs? Are you referring to drug categories, drug databases, medical applications, or perhaps something related to your current projects like the drug-related sections of your websites?";
+    } else if (userMessage.toLowerCase().includes("what is drug")) {
+        botResponse = "A drug is any chemical substance that, when introduced into the body, alters its normal function.";
+    } else if (userMessage.toLowerCase().includes("drugdiscovery and development")) {
+        botResponse = "Drug discovery and development is a complex, multi-step process aimed at identifying and bringing new therapeutic drugs to market. It involves several stages, including research, testing, and regulatory approval, to ensure the drug is safe and effective for treating diseases.";
+    } else if (userMessage.toLowerCase().includes("aspirin explain detail")) {
+        botResponse = "Aspirin, also known as acetylsalicylic acid, is a widely used medication with a range of therapeutic applications, including pain relief, fever reduction, anti-inflammatory effects, and prevention of blood clots. It belongs to a class of drugs called nonsteroidal anti-inflammatory drugs (NSAIDs). Aspirin works by inhibiting the enzyme cyclooxygenase (COX), which plays a key role in the production of prostaglandins—chemicals responsible for inflammation, pain, and fever. By blocking COX enzymes, aspirin reduces these symptoms.";
+    } else if (userMessage.toLowerCase().includes("amoxicillin explain detail")) {
+        botResponse = "Amoxicillin is a widely prescribed antibiotic that belongs to the penicillin class of drugs. It is used to treat a variety of bacterial infections, including respiratory infections, ear infections, sinusitis, skin infections, urinary tract infections (UTIs), and some types of gastrointestinal infections like Helicobacter pylori. Amoxicillin works by inhibiting the synthesis of the bacterial cell wall, leading to the destruction of the bacteria. As a broad-spectrum antibiotic, amoxicillin is effective against a wide range of Gram-positive and Gram-negative bacteria. It disrupts the formation of peptidoglycan, an essential component of bacterial cell walls, which weakens the wall and leads to the death of the bacteria.";
+    } else if (userMessage.toLowerCase().includes("paracetamol explain detail")) {
+        botResponse = "Paracetamol, also known as acetaminophen, is a commonly used medication for pain relief (analgesic) and to reduce fever (antipyretic). It is widely used for treating mild to moderate pain, such as headaches, toothaches, menstrual cramps, and muscle aches. Paracetamol is often considered a safer alternative to nonsteroidal anti-inflammatory drugs (NSAIDs) for individuals who cannot tolerate NSAIDs. Its exact mechanism of action is not completely understood, but it is believed to work primarily in the brain by inhibiting the production of prostaglandins, which are chemicals involved in pain and fever regulation.";
+    }else if (userMessage.toLowerCase().includes("what can you provide")) {
+        botResponse = "DrugBank provides comprehensive information on drugs and drug targets, including:\n" +
+            "1. Drug Information: Chemical structure, pharmacological data, side effects, dosage, and administration.\n" +
+            "2. Drug Classification: Drug classes and therapeutic categories.\n" +
+            "3. Drug Interactions: Potential interactions with other drugs, food, or alcohol.\n" +
+            "4. Target Information: Biological targets of drugs, including proteins and receptors.\n" +
+            "5. Drug Development: Development status, clinical trials, and approval dates.\n" +
+            "6. Regulatory Information: Drug approvals and patent information.\n" +
+            "7. Bioinformatics Tools: Search tools for drugs and targets.\n" +
+            "8. Research and Academic Use: Datasets for research purposes.\n" +
+            "9. Educational Resources: Articles and guides on drug mechanisms.";
+    } else {
+        botResponse = "I'm sorry, I didn't understand that. Could you please ask something else?";
+    }
+
+    typeOutMessage(botResponse);
+}
+</script>
+<script src="script.js"></script>
+
+</body>
+</html>
+
+

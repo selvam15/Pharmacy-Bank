@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" href="https://openclipart.org/image/800px/289282">
+    <title>https://www.bank.com.in/</title>
+    <link rel="icon" href="dh.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            background-image: url(drug.jpg);
+        }
+        .profile-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .profile-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: #fc1212;
+        }
+        .profile-container input[type="text"] {
+            font-size: 14px;
+            text-align: center;
+            border: none;
+            background-color: transparent;
+            margin-top: 10px;
+            color: #fc1212;
+            outline: none;
+        }
+        .profile-info {
+            margin: 15px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+        .profile-info input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 10px;
+            display: block;
+        }
+        .profile-info input[readonly] {
+            background-color: #f0f0f0;
+        }
+
+        .edit-profile, .save-profile {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #fc1212;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .save-profile {
+            display: none;
+            background-color: #28a745;
+        }
+
+        .edit-profile:hover, .save-profile:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                width: 90%;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                padding: 10px;
+                width: 80%;
+            }
+
+            .profile-container img {
+                width: 80px;
+                height: 80px;
+            }
+            label{
+                font-weight: bolder;
+                color: #c50404;
+                margin-bottom: 20px;
+                margin-top: 20px;
+                font-size: 16px;
+                
+            }
+        }
+
+        #file-upload {
+            display: none;
+        }
+
+                .menu-bar {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    background-color: rgb(255, 3, 24);
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    padding: 10px 0;
+                    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+                }
+        
+                .menu-bar a {
+                    text-decoration: none;
+                    color: white;
+                    font-size: 16px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+        
+                .menu-bar a i {
+                    font-size: 24px;
+                }
+        
+                .menu-bar a:hover {
+                    color: #f0f0f0;
+                }
+        
+                /* Responsive Styles */
+                @media (max-width: 768px) {
+                    .menu-bar a {
+                        font-size: 12px;
+                    }
+        
+                    .menu-bar a i {
+                        font-size: 20px;
+                    }
+                }
+        
+                @media (max-width: 480px) {
+                    .menu-bar {
+                        padding: 8px 0;
+                    }
+        
+                    .menu-bar a {
+                        font-size: 10px;
+                    }
+        
+                    .menu-bar a i {
+                        font-size: 18px;
+                    }
+
+                    #username{
+                        text-align: center;
+                    }
+                }
+
+                
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #000000;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    border: 6px solid rgb(255, 11, 60);
+    border-top-color: #000000;
+    border-bottom-color: #000000;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: animate-preloader 1s linear infinite;
+}
+
+@keyframes animate-preloader {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div id="preloader"></div>
+    
+    <div class="menu-bar">
+        <a href="index.html">
+            <i class='bx bx-home'></i>
+            <span>Home</span>
+        </a>
+        <a href="product.html">
+            <i class='bx bx-cart'></i>
+            <span>Tools</span>
+        </a>
+        <a href="drugcat.html">
+            <i class='bx bxs-book-content'></i>
+            <span>Categories</span>
+        </a>
+        <a href="chatbot.html">
+            <i class='bx bx-receipt'></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="profile.html">
+            <i class='bx bx-user'></i>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <div class="profile-container">
+        <label for="file-upload">
+            <img id="profile-img" src="https://via.placeholder.com/100" alt="Profile Picture">
+        </label>
+        <input type="file" id="file-upload" accept="image/*">
+<br>
+        <input type="text" id="username" value="John Doe" readonly style="font-size: 23px;font-weight:bolder;margin-left:-40px;">
+
+        <div class="profile-info">
+            <label for="email">Email:</label>
+            <input type="text" id="email" value="johndoe@example.com" readonly>
+            
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" value="+123 456 7890" readonly>
+            
+            <label for="affiliation">Affiliation:</label>
+            <input type="text" id="affiliation" value="Research Lab, University of Medical Sciences" readonly>
+
+            <label for="research-interest">Research Interests:</label>
+            <input type="text" id="research-interest" value="Drug Discovery, Molecular Docking" readonly>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" value="123 Canteen Street, Food City" readonly>
+        </div>
+
+        <button class="edit-profile" onclick="enableEditing()">Edit Profile</button>
+        <button class="save-profile" onclick="saveProfile()">Save Profile</button>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 3000);
+        });
+
+        function enableEditing() {
+            document.querySelectorAll('.profile-info input, #username').forEach(input => {
+                input.removeAttribute('readonly');
+            });
+
+            document.querySelector('.edit-profile').style.display = 'none';
+            document.querySelector('.save-profile').style.display = 'inline-block';
+        }
+
+        function saveProfile() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const affiliation = document.getElementById('affiliation').value;
+            const researchInterest = document.getElementById('research-interest').value;
+
+            localStorage.setItem('profileUsername', username);
+            localStorage.setItem('profileEmail', email);
+            localStorage.setItem('profilePhone', phone);
+            localStorage.setItem('profileAddress', address);
+            localStorage.setItem('profileAffiliation', affiliation);
+            localStorage.setItem('profileResearchInterest', researchInterest);
+
+            alert("Profile updated!");
+
+            document.querySelectorAll('.profile-info input, #username').forEach(input => {
+                input.setAttribute('readonly', true);
+            });
+
+            document.querySelector('.save-profile').style.display = 'none';
+            document.querySelector('.edit-profile').style.display = 'inline-block';
+        }
+
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('profileUsername')) {
+                document.getElementById('username').value = localStorage.getItem('profileUsername');
+                document.getElementById('email').value = localStorage.getItem('profileEmail');
+                document.getElementById('affiliation').value = localStorage.getItem('profileAffiliation');
+                document.getElementById('research-interest').value = localStorage.getItem('profileResearchInterest');
+                document.getElementById('phone').value = localStorage.getItem('profilePhone');
+                document.getElementById('address').value = localStorage.getItem('profileAddress');
+            }
+        });
+
+        const fileUpload = document.getElementById('file-upload');
+        fileUpload.addEventListener('change', function() {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const profileImg = document.getElementById('profile-img');
+                profileImg.src = reader.result;
+                localStorage.setItem('profileImg', reader.result);
+            };
+            reader.readAsDataURL(this.files[0]);
+        });
+
+    window.addEventListener('load', () => {
+        const loggedUsername = localStorage.getItem('loggedUsername');
+        const loggedEmail = localStorage.getItem('loggedEmail');
+
+        if (loggedUsername) {
+            document.getElementById('username').value = loggedUsername;
+        }
+        if (loggedEmail) {
+            document.getElementById('email').value = loggedEmail;
+        }
+
+        if (localStorage.getItem('profilePhone')) {
+            document.getElementById('phone').value = localStorage.getItem('profilePhone');
+        }
+        if (localStorage.getItem('profileAddress')) {
+            document.getElementById('address').value = localStorage.getItem('profileAddress');
+        }
+        if (localStorage.getItem('profileImg')) {
+            document.getElementById('profile-img').src = localStorage.getItem('profileImg');
+        }
+    });
+
+    
+$(document).ready(function(){
+    $(window).scroll(function(){
+        if(this.scrollY > 20){
+            $('.navbar').addClass("sticky");
+        }else{
+            $('.navbar').removeClass("sticky");
+        }
+
+        if(this.scrollY > 500){
+            $('.scroll-up-btn').addClass("show");
+        }else{
+            $('.scroll-up-btn').removeClass("show");
+        }
+    });
+
+    
+    $('.scroll-up-btn').click(function(){
+        $('html').animate({scrollTop: 0});
+        $('html').css("scrollBehavior", "auto");
+    });
+
+    
+    $('.navbar .menu li a').click(function(){
+        $('html').css("scrollBehavior", "smooth");
+    });
+
+    $('.menu-btn').click(function(){
+        $('.navbar .menu').toggleClass("active");
+        $('.menu-btn i').toggleClass("active");
+    });
+
+
+
+});
+
+$(document).ready(function(){
+    if(localStorage.getItem('profileImage')){
+        $('.profile-img').attr('src', localStorage.getItem('profileImage'));
+    }
+
+    $('#profile-pic').change(function(){
+        const file = this.files[0];
+        if(file){
+            const reader = new FileReader();
+            reader.onload = function(event){
+                const imageSrc = event.target.result;
+                $('.profile-img').attr('src', imageSrc);
+                localStorage.setItem('profileImage', imageSrc);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    
+    $('.profile-border').click(function(){
+        $('#profile-pic').click();
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (localStorage.getItem('pillReminder')) {
+        const savedReminder = JSON.parse(localStorage.getItem('pillReminder'));
+        checkReminder(savedReminder); 
+    }
+});
+
+function checkReminder(savedReminder) {
+    const currentTime = new Date().getTime();
+    const reminderTime = savedReminder.reminderTimestamp;
+
+    const timeDifference = reminderTime - currentTime;
+
+    if (timeDifference > 0) {
+        setTimeout(function () {
+            showNotification(savedReminder.pillName);
+            localStorage.removeItem('pillReminder');
+        }, timeDifference);
+    } else if (timeDifference <= 0) {
+        showNotification(savedReminder.pillName);
+        localStorage.removeItem('pillReminder');
+    }
+}
+
+if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+}
+
+function showNotification(pillName) {
+    if (Notification.permission === "granted") {
+        new Notification(`Time to take your pill: ${pillName}`);
+    } else {
+        alert(`Time to take your pill: ${pillName}`);
+    }
+}
+
+
+    </script>
+
+</body>
+</html>
+

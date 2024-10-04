@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="dh.jpg">
+    <title>Pill Reminder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url(drug.jpg);
+        }
+
+        header {
+            width: 100%;
+            background-color: #f50a39;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 24px;
+        }
+
+        header button {
+            background-color: transparent;
+            border: 2px solid white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        header button a {
+            text-decoration: none;
+            color: white;
+        }
+
+        header button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .pill-reminder-section {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .pill-reminder-section h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #f50a39;
+            outline: none;
+        }
+
+        .set-reminder-btn {
+            width: 100%;
+            background-color: #f50a39;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .set-reminder-btn:hover {
+            background-color: #e10c32;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .result h3 {
+            color: #555;
+            font-size: 16px;
+        }
+
+        .result p {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .menu-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgb(255, 3, 24);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-bar a {
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .menu-bar a i {
+            font-size: 22px;
+        }
+
+        .menu-bar a:hover {
+            color: #e0e0e0;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 20px;
+            }
+
+            .pill-reminder-section {
+                margin-top: 15px;
+                padding: 15px;
+            }
+
+            .pill-reminder-section h3 {
+                font-size: 20px;
+            }
+
+            .set-reminder-btn {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 18px;
+            }
+
+            .pill-reminder-section {
+                margin-top: 10px;
+                padding: 40px;
+                width: 240px;
+            }
+
+            .pill-reminder-section h3 {
+                font-size: 18px;
+            }
+
+            .menu-bar {
+                padding: 10px 0;
+            }
+
+            .menu-bar a {
+                font-size: 12px;
+            }
+
+            .menu-bar a i {
+                font-size: 20px;
+            }
+        }
+                        
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #000000;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    border: 6px solid rgb(255, 11, 60);
+    border-top-color: #000000;
+    border-bottom-color: #000000;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: animate-preloader 1s linear infinite;
+}
+
+@keyframes animate-preloader {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
+}
+    </style>
+</head>
+<body>
+    <div id="preloader"></div>
+    <header class="header">
+        <h1>Pill Reminder</h1>
+        <button><a href="index.html">Go back</a></button>
+    </header>
+
+    <section class="pill-reminder-section">
+        <form id="pill-reminder-form" class="reminder-form">
+            <h3>Set Your Pill Reminder</h3>
+            <div class="input-group">
+                <label for="pill-name">Pill Name:</label>
+                <input type="text" id="pill-name" name="pill-name" placeholder="Enter pill name" required>
+            </div>
+            <div class="input-group">
+                <label for="reminder-time">Reminder Time:</label>
+                <input type="time" id="reminder-time" name="reminder-time" required>
+            </div>
+            <button type="submit" class="set-reminder-btn">Set Reminder</button>
+            <div class="result">
+                <h3>Reminder Status:</h3>
+                <p id="reminder-status">-</p>
+            </div>
+        </form>
+    </section>
+
+    <div class="menu-bar">
+        <a href="index.html">
+            <i class='bx bx-home'></i>
+            <span>Home</span>
+        </a>
+        <a href="product.html">
+            <i class='bx bx-cart'></i>
+            <span>Tools</span>
+        </a>
+        <a href="drugcat.html">
+            <i class='bx bxs-book-content'></i>
+            <span>Categories</span>
+        </a>
+        <a href="chatbot.html">
+            <i class='bx bx-receipt'></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="profile.html">
+            <i class='bx bx-user'></i>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 3000);
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            if (localStorage.getItem('pillReminder')) {
+                const savedReminder = JSON.parse(localStorage.getItem('pillReminder'));
+                document.getElementById('reminder-status').textContent = `Reminder set for ${savedReminder.pillName} at ${savedReminder.reminderTime}`;
+                checkReminder(savedReminder); 
+            }
+        });
+        
+        document.getElementById('pill-reminder-form').addEventListener('submit', function (e) {
+            e.preventDefault(); 
+        
+            const pillName = document.getElementById('pill-name').value;
+            const reminderTime = document.getElementById('reminder-time').value;
+        
+            const currentTime = new Date();
+            const reminderDate = new Date();
+            const [hours, minutes] = reminderTime.split(':');
+        
+            reminderDate.setHours(hours, minutes, 0, 0); 
+        
+            const timeDifference = reminderDate - currentTime;
+        
+            if (timeDifference > 0) {
+                document.getElementById('reminder-status').textContent = `Reminder set for ${pillName} at ${reminderTime}`;
+        
+                const reminderData = {
+                    pillName: pillName,
+                    reminderTime: reminderTime,
+                    reminderTimestamp: reminderDate.getTime()
+                };
+                localStorage.setItem('pillReminder', JSON.stringify(reminderData));
+        
+                setTimeout(function () {
+                    showNotification(pillName);
+                }, timeDifference);
+                
+            } else {
+                document.getElementById('reminder-status').textContent = `Reminder time is in the past. Please select a valid time.`;
+            }
+        });
+        
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+        
+        function showNotification(pillName) {
+            if (Notification.permission === "granted") {
+                new Notification(`Time to take your pill: ${pillName}`);
+            } else {
+                alert(`Time to take your pill: ${pillName}`);
+            }
+        }
+        
+        
+
+        function checkReminder(savedReminder) {
+            const currentTime = new Date().getTime();
+            const reminderTime = savedReminder.reminderTimestamp;
+        
+            const timeDifference = reminderTime - currentTime;
+        
+            if (timeDifference > 0) {
+                setTimeout(function () {
+                    showNotification(savedReminder.pillName);
+                    localStorage.removeItem('pillReminder');
+                    document.getElementById('reminder-status').textContent = '-';
+                }, timeDifference);
+            } else {
+                showNotification(savedReminder.pillName);
+                localStorage.removeItem('pillReminder');
+                document.getElementById('reminder-status').textContent = '-';
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>https://www.bank.com.in/</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url(drug.jpg);
+        }
+
+        header {
+            background-color: rgb(255, 47, 47);
+            color: white;
+            padding: 0.1rem;
+            text-align: center;
+            height: 50px;
+        }
+
+        header h1{
+            font-size: 20px;
+        }
+
+        
+        .menu-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgb(255, 3, 24);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .menu-bar a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .menu-bar a i {
+            font-size: 24px;
+        }
+        
+        .menu-bar a:hover {
+            color: #f0f0f0;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .menu-bar a {
+                font-size: 12px;
+            }
+        
+            .menu-bar a i {
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .menu-bar {
+                padding: 8px 0;
+            }
+        
+            .menu-bar a {
+                font-size: 10px;
+            }
+        
+            .menu-bar a i {
+                font-size: 18px;
+            }
+        }
+
+        /* Drug Categories Section */
+        .category-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+            position: relative;
+        }
+
+        .category-card h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: rgb(255, 47, 47);
+        }
+
+        .category-card p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .category-card a.explore-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: rgb(255, 47, 47);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card a.explore-btn:hover {
+            background-color: #c93030;
+        }
+
+        .category-card a.close-btn {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #555;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .category-card a.close-btn:hover {
+            background-color: #333;
+        }
+
+        /* Hidden Explore Details */
+        .explore-details {
+            display: none;
+            margin-top: 15px;
+            text-align: left;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            color: #333;
+        }
+
+        /* Show details when active */
+        .category-card.active .explore-details {
+            display: block;
+        }
+
+        /* Hide explore button and show close button */
+        .category-card.active .explore-btn {
+            display: none;
+        }
+
+        .category-card.active .close-btn {
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .category-card {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category-card {
+                width: 150px;
+                padding: 15px;
+            }
+
+            .category-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .category-card p {
+                font-size: 0.9rem;
+            }
+        }
+                        
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #000000;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    border: 6px solid rgb(255, 11, 60);
+    border-top-color: #000000;
+    border-bottom-color: #000000;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: animate-preloader 1s linear infinite;
+}
+
+@keyframes animate-preloader {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
+}
+    </style>
+</head>
+<body>
+    <div id="preloader"></div>
+    <header>
+        <h1>Drug Categories</h1>
+    </header>
+
+    <div class="menu-bar">
+        <a href="index.html">
+            <i class='bx bx-home'></i>
+            <span>Home</span>
+        </a>
+        <a href="product.html">
+            <i class='bx bx-cart'></i>
+            <span>Tools</span>
+        </a>
+        <a href="drugcat.html">
+            <i class='bx bxs-book-content'></i>
+            <span>Categories</span>
+        </a>
+        <a href="chatbot.html">
+            <i class='bx bx-receipt'></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="profile.html">
+            <i class='bx bx-user'></i>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <!-- Drug Categories Section -->
+    <section class="category-section">
+        <div class="category-card" id="antibiotics-card" data-aos="fade-up-right">
+            <h3>Antibiotics</h3>
+            <p>Drugs that help fight bacterial infections by killing or inhibiting bacterial growth.</p>
+            <a class="explore-btn" onclick="toggleDetails('antibiotics-card')">Explore</a>
+            <div class="explore-details">
+                <h4>Common Antibiotics</h4>
+                <p>Examples: Penicillin, Amoxicillin, Erythromycin.</p>
+                <h4>Uses:</h4>
+                <p>Used for treating infections such as strep throat, pneumonia, and skin infections.</p>
+                <a class="close-btn" onclick="toggleDetails('antibiotics-card')">Close</a>
+            </div>
+        </div>
+
+        <div class="category-card" id="antivirals-card" data-aos="fade-up-right">
+            <h3>Antivirals</h3>
+            <p>Drugs that treat viral infections by inhibiting the development of viruses.</p>
+            <a class="explore-btn" onclick="toggleDetails('antivirals-card')">Explore</a>
+            <div class="explore-details">
+                <h4>Common Antivirals</h4>
+                <p>Examples: Oseltamivir, Remdesivir, Acyclovir.</p>
+                <h4>Uses:</h4>
+                <p>Used for treating infections such as influenza, herpes, and HIV.</p>
+                <a class="close-btn" onclick="toggleDetails('antivirals-card')">Close</a>
+            </div>
+        </div>
+
+        <div class="category-card" id="painkillers-card" data-aos="fade-up-right">
+            <h3>Painkillers</h3>
+            <p>Medications used to relieve pain, ranging from mild to severe.</p>
+            <a class="explore-btn" onclick="toggleDetails('painkillers-card')">Explore</a>
+            <div class="explore-details">
+                <h4>Common Painkillers</h4>
+                <p>Examples: Paracetamol, Ibuprofen, Morphine.</p>
+                <h4>Uses:</h4>
+                <p>Used for headaches, muscle pain, arthritis, and post-surgical pain relief.</p>
+                <a class="close-btn" onclick="toggleDetails('painkillers-card')">Close</a>
+            </div>
+        </div>
+
+        <div class="category-card" id="vaccines-card" data-aos="fade-up-right">
+            <h3>Vaccines</h3>
+            <p>Biological preparations that provide immunity to specific diseases.</p>
+            <a class="explore-btn" onclick="toggleDetails('vaccines-card')">Explore</a>
+            <div class="explore-details">
+                <h4>Common Vaccines</h4>
+                <p>Examples: Flu Vaccine, Hepatitis Vaccine, COVID-19 Vaccine.</p>
+                <h4>Uses:</h4>
+                <p>Used to prevent diseases such as influenza, hepatitis, and COVID-19.</p>
+                <a class="close-btn" onclick="toggleDetails('vaccines-card')">Close</a>
+            </div>
+        </div>
+
+        <div class="category-card" id="cancer-card" data-aos="fade-up-right">
+            <h3>Cancer Treatments</h3>
+            <p>Drugs and therapies used to treat various forms of cancer.</p>
+            <a class="explore-btn" onclick="toggleDetails('cancer-card')">Explore</a>
+            <div class="explore-details">
+                <h4>Common Cancer Treatments</h4>
+                <p>Examples: Chemotherapy, Immunotherapy, Targeted Therapy.</p>
+                <h4>Uses:</h4>
+                <p>Used to treat different cancers like breast cancer, lung cancer, and leukemia.</p>
+                <a class="close-btn" onclick="toggleDetails('cancer-card')">Close</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 3000);
+        });
+        function toggleDetails(cardId) {
+            var card = document.getElementById(cardId);
+            card.classList.toggle("active");
+        }
+
+        // reminder.js
+document.addEventListener('DOMContentLoaded', function () {
+    if (localStorage.getItem('pillReminder')) {
+        const savedReminder = JSON.parse(localStorage.getItem('pillReminder'));
+        checkReminder(savedReminder); 
+    }
+});
+
+function checkReminder(savedReminder) {
+    const currentTime = new Date().getTime();
+    const reminderTime = savedReminder.reminderTimestamp;
+
+    const timeDifference = reminderTime - currentTime;
+
+    if (timeDifference > 0) {
+        setTimeout(function () {
+            showNotification(savedReminder.pillName);
+            localStorage.removeItem('pillReminder');
+        }, timeDifference);
+    } else if (timeDifference <= 0) {
+        showNotification(savedReminder.pillName);
+        localStorage.removeItem('pillReminder');
+    }
+}
+
+if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+}
+
+function showNotification(pillName) {
+    if (Notification.permission === "granted") {
+        new Notification(`Time to take your pill: ${pillName}`);
+    } else {
+        alert(`Time to take your pill: ${pillName}`);
+    }
+}
+
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>
+
+

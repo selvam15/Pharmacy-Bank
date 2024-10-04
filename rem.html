@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <title>Reminder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            background-image: url(drug.jpg);
+        }
+
+        header {
+            width: 100%;
+            background-color: #f50a39;
+            padding: 15px 25px;
+            height: 55px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Container */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 80px);
+            gap: 30px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(255, 255, 255);
+            border-radius: 50%;
+            border-color: #ff0000;
+            color: transparent;
+            backdrop-filter: blur(60px);
+            font-size: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0px 0px 1px 0px rgb(255, 255, 255);
+        }
+
+        .box:hover {
+            transform: scale(1.1);
+            background-color: rgb(255, 0, 51);
+        }
+
+        .box:nth-child(1) {
+            background-color: rgba(255, 255, 255, 0.964);
+            backdrop-filter: blur(60px);
+        }
+
+        .box:nth-child(1):hover {
+            background-color: #ff0000;
+        }
+
+        .box:nth-child(2) {
+            background-color: rgba(255, 255, 255, 0.964);
+        }
+
+        .box:nth-child(2):hover {
+            background-color: #ff0000;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .box {
+            animation: slideIn 0.5s ease;
+        }
+
+        
+        .menu-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgb(255, 3, 24);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .menu-bar a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .menu-bar a i {
+            font-size: 24px;
+        }
+        
+        .menu-bar a:hover {
+            color: #f0f0f0;
+        }
+        
+
+        @media (max-width: 768px) {
+            .menu-bar a {
+                font-size: 12px;
+            }
+        
+            .menu-bar a i {
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .menu-bar {
+                padding: 8px 0;
+            }
+        
+            .menu-bar a {
+                font-size: 10px;
+            }
+        
+            .menu-bar a i {
+                font-size: 18px;
+            }
+        }
+        
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+            }
+
+            .box {
+                width: 250px;
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .box {
+                width: 200px;
+                height: 200px;
+            }
+
+            .box p{
+                font-size: 20px;
+               
+            }
+
+            i{
+                font-size: 100px;
+            }
+        }
+        i{
+            font-size: 80px;
+        }
+
+        .box i{
+            color: #ff0000;
+        }
+
+                        
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #000000;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    border: 6px solid rgb(255, 11, 60);
+    border-top-color: #000000;
+    border-bottom-color: #000000;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: animate-preloader 1s linear infinite;
+}
+
+@keyframes animate-preloader {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div id="preloader"></div>
+    <header>
+        
+    </header>
+<br>
+    <div class="container">
+        <div class="box" onclick="navigateToPillReminder()" data-aos="flip-down">
+            <i class='bx bxs-time-five'></i>
+            <br>
+        </div>
+        <div class="box" onclick="navigateToDrugCalculation()">
+            <i class='bx bxs-calculator' ></i>
+            <br>
+        </div>
+    </div>
+
+    <div class="menu-bar">
+        <a href="index.html">
+            <i class='bx bx-home'></i>
+            <span>Home</span>
+        </a>
+        <a href="product.html">
+            <i class='bx bx-cart'></i>
+            <span>Tools</span>
+        </a>
+        <a href="drugcat.html">
+            <i class='bx bxs-book-content'></i>
+            <span>Categories</span>
+        </a>
+        <a href="chatbot.html">
+            <i class='bx bx-receipt'></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="profile.html">
+            <i class='bx bx-user'></i>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 3000);
+        });
+        function navigateToPillReminder() {
+            window.location.href = 'dump.html'; 
+        }
+
+        function navigateToDrugCalculation() {
+            window.location.href = 'biocal.html'; 
+        }
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (localStorage.getItem('pillReminder')) {
+        const savedReminder = JSON.parse(localStorage.getItem('pillReminder'));
+        checkReminder(savedReminder); 
+    }
+});
+
+function checkReminder(savedReminder) {
+    const currentTime = new Date().getTime();
+    const reminderTime = savedReminder.reminderTimestamp;
+
+    const timeDifference = reminderTime - currentTime;
+
+    if (timeDifference > 0) {
+        setTimeout(function () {
+            showNotification(savedReminder.pillName);
+            localStorage.removeItem('pillReminder');
+        }, timeDifference);
+    } else if (timeDifference <= 0) {
+        showNotification(savedReminder.pillName);
+        localStorage.removeItem('pillReminder');
+    }
+}
+
+if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+}
+
+function showNotification(pillName) {
+    if (Notification.permission === "granted") {
+        new Notification(`Time to take your pill: ${pillName}`);
+    } else {
+        alert(`Time to take your pill: ${pillName}`);
+    }
+}
+
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>
+

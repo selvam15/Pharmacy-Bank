@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore molecular docking and drug discovery tools like AutoDock, PyRx, Schrödinger Suite, and more.">
+    <meta name="keywords" content="Molecular Docking, Drug Discovery, AutoDock, PyRx, Schrödinger Suite, GROMACS, SwissDock, MOE, Discovery Studio">
+    <meta name="author" content="Selvam">
+    <title>Molecular Docking Tools</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="icon" href="https://openclipart.org/image/800px/289282">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="icon" href="dh.jpg">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url(drug.jpg);
+        }
+        
+        header {
+            background-color: rgb(255, 47, 47);
+            color: #fff;
+            padding: 1rem 46px;
+            width: auto;
+        }
+
+        /* Navbar and Search Bar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            width: 250px;
+            transition: width 0.4s ease-in-out;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.5rem;
+            border: none;
+            outline: none;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            background-color: #218838;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .search-bar button:hover {
+            background-color: #28a745;
+        }
+
+        /* Product Card Styles */
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 1rem;
+            padding: 1rem;
+            text-align: center;
+            width: 200px;
+            background-color: #ffffff;
+        }
+        
+        .product-card img {
+            max-width: 80%;
+            border-radius: 5px;
+        }
+        
+        .order-btn {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .order-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .search-bar {
+                width: 150px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-bar {
+                width: 180px;
+            }
+        }
+
+        /* QR Code Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .modal img {
+            max-width: 100%;
+        }
+
+        .close-btn {
+            background-color: #333;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .close-btn:hover {
+            background-color: #555;
+        }
+
+        /* Menu Bar */
+        .menu-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgb(255, 3, 24);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .menu-bar a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .menu-bar a i {
+            font-size: 24px;
+        }
+        
+        .menu-bar a:hover {
+            color: #f0f0f0;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .menu-bar a {
+                font-size: 12px;
+            }
+
+            .menu-bar a i {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .menu-bar {
+                padding: 8px 0;
+            }
+
+            .menu-bar a {
+                font-size: 10px;
+            }
+
+            .menu-bar a i {
+                font-size: 18px;
+            }
+        }
+
+        .product-card a {
+            text-decoration: none;
+            color: white;
+        }
+
+                        
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #000000;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    border: 6px solid rgb(255, 11, 60);
+    border-top-color: #000000;
+    border-bottom-color: #000000;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: animate-preloader 1s linear infinite;
+}
+
+@keyframes animate-preloader {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
+}
+        
+    </style>
+</head>
+<body>
+    <div id="preloader"></div>
+    <header>
+        <nav class="navbar">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search for Tools...">
+                <button type="button" id="searchButton" style="margin-left: 10px;"><i class='bx bx-search'></i></button>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="products" id="productList">
+            <!-- Product Cards -->
+            <div class="product-card" data-aos="fade-down">
+                <img src="https://lammpstube.com/wp-content/uploads/2019/12/autodock-software.jpg" alt="AutoDock">
+                <h3>AutoDock</h3>
+                <p>AutoDock is one of the most popular tools for molecular docking, widely used for virtual screening and docking simulations.</p>
+                <button class="order-btn" data-product="AutoDock"><a href="http://autodock.scripps.edu/">GO</a></button>
+            </div>
+            <div class="product-card" data-aos="fade-down">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5YLdAJnyPHZOmLXs-nSiDxDny3uRReScfAw&s" alt="PyRx">
+                <h3>PyRx</h3>
+                <p>An easy-to-use tool for virtual screening, combining AutoDock Vina with a user-friendly interface.</p>
+                <button class="order-btn" data-product="PyRx"><a href="https://pyrx.sourceforge.io/">GO</a></button>
+            </div>
+            <div class="product-card" data-aos="fade-down">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt_gxDgi3h8vdEG6_Vn49GC6o14eMMkiebHA&s" alt="Schrodinger Suite">
+                <h3>Schrödinger Suite</h3>
+                <p>A comprehensive suite of tools for molecular docking, pharmacophore modeling, and more.</p>
+                <button class="order-btn" data-product="Schrödinger Suite"><a href="https://www.schrodinger.com/">GO</a></button>
+            </div>
+            <div class="product-card" data-aos="fade-down">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/MOE_Logo_Blue_with.png" alt="MOE">
+                <h3>MOE</h3>
+                <p>A software platform with tools for molecular modeling, computational chemistry, and cheminformatics.</p>
+                <button class="order-btn" data-product="MOE"><a href="https://www.chemcomp.com/">GO</a></button>
+            </div>
+            <div class="product-card" data-aos="fade-down">
+                <img src="https://upload.wikimedia.org/wikipedia/en/2/23/OpenEye_Scientific_Software_logo.png" alt="OpenEye Scientific">
+                <h3>OpenEye Scientific</h3>
+                <p>Tools for molecular docking, shape-based screening, and electrostatic modeling.</p>
+                <button class="order-btn" data-product="OpenEye Scientific"><a href="https://www.eyesopen.com/">GO</a></button>
+            </div>
+            <div class="product-card" data-aos="fade-down">
+                <img src="https://www.cp2k.org/_media/tools:gromacs_logo.png?w=400&tok=4be7d9" alt="GROMACS">
+                <h3>GROMACS</h3>
+                <p>A versatile package for molecular dynamics simulations, especially for proteins.</p>
+                <button class="order-btn" data-product="GROMACS"><a href="http://www.gromacs.org/">GO</a></button>
+            </div>
+            <div class="product-card" data-aos="fade-down">
+                <img src="https://www.swissdock.ch/images/sib_emblem_trans_background.png" alt="SwissDock">
+                <h3>SwissDock</h3>
+                <p>A web service for predicting the binding modes of small molecules with proteins.</p>
+                <button class="order-btn" data-product="SwissDock"><a href="http://www.swissdock.ch/">GO</a></button>
+            </div>
+            <div class="product-card" data-aos="fade-down">
+                <img src="https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_62731cd8a2fa5ac0781eab42fc5318e5/biovia-discovery-studio.jpg" alt="Discovery Studio">
+                <h3>Discovery Studio</h3>
+                <p>Provides molecular simulation tools for molecular modeling and drug discovery.</p>
+                <button class="order-btn" data-product="Discovery Studio"><a href="https://discover.3ds.com/discovery-studio">GO</a></button>
+            </div>
+        </section>
+    </main>
+
+    <div class="menu-bar">
+        <a href="index.html">
+            <i class='bx bx-home'></i>
+            <span>Home</span>
+        </a>
+        <a href="product.html">
+            <i class='bx bx-cart'></i>
+            <span>Tools</span>
+        </a>
+        <a href="drugcat.html">
+            <i class='bx bxs-book-content'></i>
+            <span>Categories</span>
+        </a>
+        <a href="chatbot.html">
+            <i class='bx bx-receipt'></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="profile.html">
+            <i class='bx bx-user'></i>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <!-- JavaScript Section -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 3000);
+        });
+        AOS.init();
+
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const productList = document.getElementById('productList');
+        const products = document.querySelectorAll('.product-card');
+
+        // Event listener for search button click
+        searchButton.addEventListener('click', searchProduct);
+
+        // Event listener for typing in the search input
+        searchInput.addEventListener('input', searchProduct);
+
+        function searchProduct() {
+            const filter = searchInput.value.toLowerCase();
+            products.forEach(product => {
+                const productName = product.querySelector('h3').textContent.toLowerCase();
+                if (productName.includes(filter)) {
+                    product.style.display = '';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (localStorage.getItem('pillReminder')) {
+                const savedReminder = JSON.parse(localStorage.getItem('pillReminder'));
+                checkReminder(savedReminder); 
+            }
+        });
+        
+        function checkReminder(savedReminder) {
+            const currentTime = new Date().getTime();
+            const reminderTime = savedReminder.reminderTimestamp;
+        
+            const timeDifference = reminderTime - currentTime;
+        
+            if (timeDifference > 0) {
+                setTimeout(function () {
+                    showNotification(savedReminder.pillName);
+                    localStorage.removeItem('pillReminder');
+                }, timeDifference);
+            } else if (timeDifference <= 0) {
+                showNotification(savedReminder.pillName);
+                localStorage.removeItem('pillReminder');
+            }
+        }
+        
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+        
+        function showNotification(pillName) {
+            if (Notification.permission === "granted") {
+                new Notification(`Time to take your pill: ${pillName}`);
+            } else {
+                alert(`Time to take your pill: ${pillName}`);
+            }
+        }
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <title>Drug-Based Calculations</title>
+    <link rel="icon" href="dh.jpg">
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    background-image: url(drug.jpg);
+}
+
+.header {
+    background-color: #f50a39;
+    padding: 15px;
+    text-align: start;
+    color: white;
+    height: 38px;
+    display: flex;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    color: #DC143C; 
+}
+
+.boxes {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.box {
+    background-color: #fff;
+    border: 2px solid #fd0033; 
+    padding: 40px;
+    width: 200px;
+    text-align: center;
+    margin: 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 15px 5px rgba(0, 0, 0, 0.1);
+}
+
+.box:hover {
+    transform: scale(1.1);
+    background-color: #DC143C; 
+    color: white;
+}
+
+h3 {
+    margin: 0;
+    color: #333;
+}
+
+.calc-form {
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 20px;
+    padding: 0;
+    border: 2px solid #ddd;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.5s ease, visibility 0.5s ease, max-height 0.5s ease;
+}
+
+.calc-form.active {
+    opacity: 1;
+    visibility: visible;
+    max-height: 1000px; 
+    padding: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.calculate-btn {
+    background-color: #ff0033; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.calculate-btn:hover {
+    background-color: #b21036; 
+}
+
+.result {
+    margin-top: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    .boxes {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .box {
+        width: 80%;  
+        padding: 20px; 
+        margin-bottom: 20px;
+    }
+
+    .box:hover h3{
+        color: #fff;
+    }
+
+    .input-group input {
+        padding: 8px;
+        width: 90%;
+    }
+
+    .calculate-btn {
+        padding: 8px 15px; 
+    }
+
+    .calc-form.active {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.5rem; 
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        margin-top: -8px;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        color: #cb113c;
+    }
+
+    .calc-form h3{
+        margin-bottom: 20px;
+    }
+}
+
+#select{
+    font-size: large;
+    text-transform: uppercase;
+    text-align: center;
+    text-shadow: #333 0px 1px;
+}
+
+.menu-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(255, 3, 24);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.menu-bar a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-bar a i {
+    font-size: 24px;
+}
+
+.menu-bar a:hover {
+    color: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+    .menu-bar a {
+        font-size: 12px;
+    }
+
+    .menu-bar a i {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-bar {
+        padding: 8px 0;
+    }
+
+    .menu-bar a {
+        font-size: 10px;
+    }
+
+    .menu-bar a i {
+        font-size: 18px;
+    }
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #f50a39;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.side-menu .container {
+    padding: 0;
+    width: 100%;
+}
+
+.side-menu h2 {
+    color: white;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.side-menu .boxes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.side-menu .box {
+    background-color: #fff;
+    border: 2px solid #fd0033;
+    padding: 20px;
+    text-align: center;
+    margin: 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 15px 5px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    margin-left: 5%;
+}
+
+.side-menu .box:hover {
+    transform: scale(1.05);
+    background-color: #DC143C;
+    color: white;
+}
+
+.side-menu h3 {
+    margin: 0;
+    color: #333;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.calc-form {
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 20px;
+    padding: 0;
+    border: 2px solid #ddd;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.5s ease, visibility 0.5s ease, max-height 0.5s ease;
+}
+
+.calc-form.active {
+    opacity: 1;
+    visibility: visible;
+    max-height: 1000px;
+    padding: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.calculate-btn {
+    background-color: #ff0033;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.calculate-btn:hover {
+    background-color: #b21036;
+}
+
+.result {
+    margin-top: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    .side-menu {
+        width: 200px;
+    }
+
+    .main-content {
+        margin-left: 200px;
+    }
+    
+    .side-menu h2 {
+        font-size: 1.5rem;
+    }
+
+    .side-menu .box {
+        padding: 15px;
+        width: 80%;
+        margin-left: 10%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .side-menu {
+        width: 150px;
+    }
+
+    .main-content {
+        margin-left: 150px;
+    }
+
+    .side-menu h2 {
+        font-size: 1.2rem;
+    }
+
+    .side-menu .box {
+        padding: 10px;
+        width: 90%;
+        margin-left: 5%;
+    }
+}
+
+button{
+    border: #ffffff 3px;
+    background-color: transparent;
+}
+
+button a{
+    color: #f0f0f0;
+    text-decoration: none;
+}
+                
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #000000;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    border: 6px solid rgb(255, 11, 60);
+    border-top-color: #000000;
+    border-bottom-color: #000000;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: animate-preloader 1s linear infinite;
+}
+
+@keyframes animate-preloader {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
+}
+    </style>
+</head>
+<body>
+    <div id="preloader"></div>
+    <header class="header">
+        <div class="container">
+            <h1>Calculations</h1>
+        </div>
+            <button><a href="index.html">Go back</a></button>
+        
+    </header>    
+
+    <section class="calculator-selection-section">
+        <div class="container">
+            <h2 id="select">Select a Calculation</h2>
+            <div class="boxes">
+                <div class="box" id="box-dosage">
+                    <h3>Dosage Calculation</h3>
+                </div>
+                <div class="box" id="box-infusion">
+                    <h3>Infusion Rate Calculation</h3>
+                </div>
+                <div class="box" id="box-concentration">
+                    <h3>Concentration Calculation</h3>
+                </div>
+                <div class="box" id="box-bmi">
+                    <h3>BMI Calculation</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="menu-bar">
+        <a href="index.html">
+            <i class='bx bx-home'></i>
+            <span>Home</span>
+        </a>
+        <a href="product.html">
+            <i class='bx bx-cart'></i>
+            <span>Tools</span>
+        </a>
+        <a href="drugcat.html">
+            <i class='bx bxs-book-content'></i>
+            <span>Categories</span>
+        </a>
+        <a href="chatbot.html">
+            <i class='bx bx-receipt'></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="profile.html">
+            <i class='bx bx-user'></i>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    
+
+    <section class="calculator-section">
+        <div class="container">
+            <form id="drug-dosage-form" class="calc-form">
+                <h3>Calculate Drug Dosage (mg)</h3>
+                <div class="input-group">
+                    <label for="weight">Patient's Weight (kg):</label>
+                    <input type="number" id="weight" name="weight" required>
+                </div>
+                <div class="input-group">
+                    <label for="dosage">Dosage per kg (mg/kg):</label>
+                    <input type="number" id="dosage" name="dosage" required>
+                </div>
+                <div class="input-group">
+                    <label for="frequency">Dosage Frequency (per day):</label>
+                    <input type="number" id="frequency" name="frequency" required>
+                </div>
+                <div class="input-group">
+                    <label for="days">Number of Days:</label>
+                    <input type="number" id="days" name="days" required>
+                </div>
+                <button type="submit" class="calculate-btn">Calculate</button>
+                <div class="result">
+                    <h3>Total Drug Dosage:</h3>
+                    <p id="total-dosage">-</p>
+                </div>
+            </form>
+
+            <form id="infusion-rate-form" class="calc-form">
+                <h3>Calculate Infusion Rate (mL/hr)</h3>
+                <div class="input-group">
+                    <label for="volume">Total Volume (mL):</label>
+                    <input type="number" id="volume" name="volume" required>
+                </div>
+                <div class="input-group">
+                    <label for="time">Infusion Time (hrs):</label>
+                    <input type="number" id="time" name="time" required>
+                </div>
+                <button type="submit" class="calculate-btn">Calculate</button>
+                <div class="result">
+                    <h3>Infusion Rate:</h3>
+                    <p id="infusion-rate">-</p>
+                </div>
+            </form>
+
+            <form id="concentration-form" class="calc-form">
+                <h3>Calculate Drug Concentration</h3>
+                <div class="input-group">
+                    <label for="drug-amount">Drug Amount (mg):</label>
+                    <input type="number" id="drug-amount" name="drug-amount" required>
+                </div>
+                <div class="input-group">
+                    <label for="solution-volume">Solution Volume (mL):</label>
+                    <input type="number" id="solution-volume" name="solution-volume" required>
+                </div>
+                <button type="submit" class="calculate-btn">Calculate</button>
+                <div class="result">
+                    <h3>Concentration (mg/mL):</h3>
+                    <p id="concentration-result">-</p>
+                </div>
+            </form>
+
+            <form id="bmi-form" class="calc-form">
+                <h3>Calculate BMI</h3>
+                <div class="input-group">
+                    <label for="height">Height (cm):</label>
+                    <input type="number" id="height" name="height" required>
+                </div>
+                <div class="input-group">
+                    <label for="weight-bmi">Weight (kg):</label>
+                    <input type="number" id="weight-bmi" name="weight-bmi" required>
+                </div>
+                <button type="submit" class="calculate-btn">Calculate BMI</button>
+                <div class="result">
+                    <h3>Your BMI:</h3>
+                    <p id="bmi-result">-</p>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 3000);
+        });
+        const boxes = document.querySelectorAll('.box');
+        const forms = document.querySelectorAll('.calc-form');
+
+        boxes.forEach((box) => {
+            box.addEventListener('click', () => {
+                forms.forEach((form) => form.classList.remove('active'));
+
+                switch (box.id) {
+                    case 'box-dosage':
+                        document.getElementById('drug-dosage-form').classList.add('active');
+                        break;
+                    case 'box-infusion':
+                        document.getElementById('infusion-rate-form').classList.add('active');
+                        break;
+                    case 'box-concentration':
+                        document.getElementById('concentration-form').classList.add('active');
+                        break;
+                    case 'box-bmi':
+                        document.getElementById('bmi-form').classList.add('active');
+                        break;
+                }
+            });
+        });
+function hideAllForms() {
+    document.querySelectorAll('.calc-form').forEach(form => {
+        form.classList.remove('active'); 
+    });
+}
+
+document.getElementById('box-dosage').addEventListener('click', function () {
+    hideAllForms();
+    document.getElementById('drug-dosage-form').classList.add('active');
+});
+
+document.getElementById('box-infusion').addEventListener('click', function () {
+    hideAllForms();
+    document.getElementById('infusion-rate-form').classList.add('active');
+});
+
+document.getElementById('box-concentration').addEventListener('click', function () {
+    hideAllForms();
+    document.getElementById('concentration-form').classList.add('active');
+});
+
+document.getElementById('box-bmi').addEventListener('click', function () {
+    hideAllForms();
+    document.getElementById('bmi-form').classList.add('active');
+});
+
+document.getElementById('drug-dosage-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const weight = parseFloat(document.getElementById('weight').value);
+    const dosagePerKg = parseFloat(document.getElementById('dosage').value);
+    const frequency = parseFloat(document.getElementById('frequency').value);
+    const days = parseFloat(document.getElementById('days').value);
+
+    const totalDosage = weight * dosagePerKg * frequency * days;
+    document.getElementById('total-dosage').textContent = `${totalDosage.toFixed(2)} mg`;
+});
+
+// Infusion Rate Calculation
+document.getElementById('infusion-rate-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const volume = parseFloat(document.getElementById('volume').value);
+    const time = parseFloat(document.getElementById('time').value);
+
+    const infusionRate = volume / time;
+    document.getElementById('infusion-rate').textContent = `${infusionRate.toFixed(2)} mL/hr`;
+});
+
+// Drug Concentration Calculation
+document.getElementById('concentration-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const drugAmount = parseFloat(document.getElementById('drug-amount').value);
+    const solutionVolume = parseFloat(document.getElementById('solution-volume').value);
+
+    const concentration = drugAmount / solutionVolume;
+    document.getElementById('concentration-result').textContent = `${concentration.toFixed(2)} mg/mL`;
+});
+
+// BMI Calculation
+document.getElementById('bmi-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const height = parseFloat(document.getElementById('height').value) / 100; 
+    const weightBmi = parseFloat(document.getElementById('weight-bmi').value);
+
+    const bmi = weightBmi / (height * height);
+    document.getElementById('bmi-result').textContent = `${bmi.toFixed(2)}`;
+})
+
+    </script>
+</body>
+</html>
+
+
